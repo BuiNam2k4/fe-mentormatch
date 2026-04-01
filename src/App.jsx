@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
 import Navbar from "./components/layout/Navbar";
+import MobileBottomNav from "./components/layout/MobileBottomNav";
 import Sidebar from "./components/layout/Sidebar";
 import RightSidebar from "./components/layout/RightSidebar";
 import CreatePost from "./components/feed/CreatePost";
@@ -41,7 +42,8 @@ function UserLayout({ children }) {
   return (
     <div className="min-h-screen flex flex-col font-sans bg-slate-50 dark:bg-slate-950 transition-colors">
       <Navbar />
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 pb-20 md:pb-0">{children}</main>
+      <MobileBottomNav />
     </div>
   );
 }
@@ -93,7 +95,7 @@ export default function App() {
               <UserLayout>
                 <div className="container mx-auto px-4 py-8">
                   <div className="max-w-5xl mx-auto min-w-0">
-                      <MyProfilePage />
+                    <MyProfilePage />
                   </div>
                 </div>
               </UserLayout>
@@ -120,9 +122,9 @@ export default function App() {
             element={
               <UserLayout>
                 <div className="container mx-auto px-4 py-8">
-                  <div className="flex gap-8">
+                  <div className="flex flex-col gap-4 md:flex-row md:gap-8">
                     <Sidebar />
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <MentorSchedulePage />
                     </div>
                   </div>
@@ -135,9 +137,9 @@ export default function App() {
             element={
               <UserLayout>
                 <div className="container mx-auto px-4 py-8">
-                  <div className="flex gap-8">
+                  <div className="flex flex-col gap-4 md:flex-row md:gap-8">
                     <Sidebar />
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <MenteeBookingsPage />
                     </div>
                   </div>
@@ -150,9 +152,9 @@ export default function App() {
             element={
               <UserLayout>
                 <div className="container mx-auto px-4 py-8">
-                  <div className="flex gap-8">
+                  <div className="flex flex-col gap-4 md:flex-row md:gap-8">
                     <Sidebar />
-                    <div className="flex-1">
+                    <div className="min-w-0 flex-1">
                       <MentorWalletPage />
                     </div>
                   </div>

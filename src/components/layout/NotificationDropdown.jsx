@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Bell, Check, RefreshCw } from 'lucide-react';
-import { notificationService } from '../../services/notificationService';
-import { useAuth } from '../../contexts/AuthContext';
-import { format } from 'date-fns';
-import { vi } from 'date-fns/locale';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from "react";
+import { Bell, Check, RefreshCw } from "lucide-react";
+import { notificationService } from "../../services/notificationService";
+import { useAuth } from "../../contexts/AuthContext";
+import { format } from "date-fns";
+import { vi } from "date-fns/locale";
+import { useNavigate } from "react-router-dom";
 
 export default function NotificationDropdown() {
   const { user } = useAuth();
@@ -30,8 +30,8 @@ export default function NotificationDropdown() {
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const fetchUnreadCount = async () => {
@@ -41,7 +41,7 @@ export default function NotificationDropdown() {
         setUnreadCount(res.result);
       }
     } catch (error) {
-      console.error('Failed to fetch unread count', error);
+      console.error("Failed to fetch unread count", error);
     }
   };
 
@@ -53,7 +53,7 @@ export default function NotificationDropdown() {
         setNotifications(res.result?.content || []);
       }
     } catch (error) {
-      console.error('Failed to fetch notifications', error);
+      console.error("Failed to fetch notifications", error);
     } finally {
       setLoading(false);
     }
@@ -72,12 +72,12 @@ export default function NotificationDropdown() {
       const res = await notificationService.markAsRead(id);
       if (res.code === 1000) {
         setNotifications((prev) =>
-          prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
+          prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)),
         );
         fetchUnreadCount();
       }
     } catch (error) {
-      console.error('Failed to mark as read', error);
+      console.error("Failed to mark as read", error);
     }
   };
 
@@ -89,7 +89,7 @@ export default function NotificationDropdown() {
         setUnreadCount(0);
       }
     } catch (error) {
-      console.error('Failed to mark all as read', error);
+      console.error("Failed to mark all as read", error);
     }
   };
 
@@ -97,24 +97,28 @@ export default function NotificationDropdown() {
     if (!notification.isRead) {
       await handleMarkAsRead(notification.id, { stopPropagation: () => {} });
     }
-    
+
     setIsOpen(false);
 
-    if (notification.type === 'BOOKING_CREATED' || notification.type === 'BOOKING_CANCELLED' || notification.type === 'BOOKING_COMPLETED') {
-      navigate('/schedule');
-    } else if (notification.type === 'PAYMENT_SUCCESS') {
-      if (notification.title === 'Thanh toán thành công') {
-        navigate('/my-bookings');
+    if (
+      notification.type === "BOOKING_CREATED" ||
+      notification.type === "BOOKING_CANCELLED" ||
+      notification.type === "BOOKING_COMPLETED"
+    ) {
+      navigate("/schedule");
+    } else if (notification.type === "PAYMENT_SUCCESS") {
+      if (notification.title === "Thanh toán thành công") {
+        navigate("/my-bookings");
       } else {
-        navigate('/schedule');
+        navigate("/schedule");
       }
     }
   };
 
   const formatDateTime = (dateString) => {
-    if (!dateString) return '';
+    if (!dateString) return "";
     const date = new Date(dateString);
-    return format(date, 'dd/MM/yyyy HH:mm', { locale: vi });
+    return format(date, "dd/MM/yyyy HH:mm", { locale: vi });
   };
 
   if (!user) return null;
@@ -132,8 +136,8 @@ export default function NotificationDropdown() {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 sm:w-96 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden z-50">
-          <div className="flex items-center justify-between px-4 py-3 border-b border-slate-100 bg-slate-50/80">
+        <div className="fixed right-2 top-16 z-[60] mt-1 w-[min(21rem,calc(100vw-1rem))] overflow-hidden rounded-xl border border-slate-100 bg-white shadow-xl sm:absolute sm:right-0 sm:top-full sm:mt-2 sm:w-96 sm:max-w-[calc(100vw-1rem)]">
+          <div className="flex items-center justify-between px-3 py-2.5 border-b border-slate-100 bg-slate-50/80">
             <h3 className="font-semibold text-slate-800">Thông báo</h3>
             {unreadCount > 0 && (
               <button
@@ -141,12 +145,13 @@ export default function NotificationDropdown() {
                 className="text-xs font-medium text-[#372660] hover:text-[#2b1d4c] flex items-center gap-1"
               >
                 <Check className="h-3.5 w-3.5" />
-                Đánh dấu đã đọc all
+                <span className="hidden sm:inline">Đánh dấu đã đọc tất cả</span>
+                <span className="sm:hidden">Đọc hết</span>
               </button>
             )}
           </div>
 
-          <div className="max-h-[360px] overflow-y-auto">
+          <div className="max-h-[46vh] overflow-y-auto sm:max-h-[360px]">
             {loading ? (
               <div className="flex justify-center items-center py-8 text-slate-400">
                 <RefreshCw className="h-5 w-5 animate-spin" />
@@ -157,8 +162,10 @@ export default function NotificationDropdown() {
                   <div
                     key={notification.id}
                     onClick={() => handleNotificationClick(notification)}
-                    className={`flex gap-3 p-4 border-b border-slate-50 cursor-pointer transition-colors ${
-                      notification.isRead ? 'bg-white hover:bg-slate-50' : 'bg-indigo-50/40 hover:bg-indigo-50/70'
+                    className={`flex gap-3 p-3 border-b border-slate-50 cursor-pointer transition-colors ${
+                      notification.isRead
+                        ? "bg-white hover:bg-slate-50"
+                        : "bg-indigo-50/40 hover:bg-indigo-50/70"
                     }`}
                   >
                     <div className="shrink-0 mt-1">
@@ -169,10 +176,14 @@ export default function NotificationDropdown() {
                       )}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm ${notification.isRead ? 'text-slate-600' : 'text-slate-800 font-medium'} mb-1`}>
+                      <p
+                        className={`text-sm ${notification.isRead ? "text-slate-600" : "text-slate-800 font-medium"} mb-1`}
+                      >
                         {notification.title}
                       </p>
-                      <p className={`text-xs ${notification.isRead ? 'text-slate-500' : 'text-slate-600'} line-clamp-2`}>
+                      <p
+                        className={`text-xs ${notification.isRead ? "text-slate-500" : "text-slate-600"} line-clamp-2`}
+                      >
                         {notification.message}
                       </p>
                       <p className="text-[10px] text-slate-400 mt-1.5">
@@ -189,10 +200,12 @@ export default function NotificationDropdown() {
               </div>
             )}
           </div>
-          
+
           {notifications.length > 0 && (
             <div className="p-2 border-t border-slate-100 bg-slate-50/50 text-center">
-              <span className="text-xs text-slate-500">Hiển thị {notifications.length} thông báo mới nhất</span>
+              <span className="text-xs text-slate-500">
+                Hiển thị {notifications.length} thông báo mới nhất
+              </span>
             </div>
           )}
         </div>

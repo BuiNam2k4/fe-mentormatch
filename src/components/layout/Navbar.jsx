@@ -37,7 +37,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 transition-colors">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         {/* Logo */}
-        <div className="flex items-center gap-2 w-64 shrink-0">
+        <div className="flex min-w-0 flex-1 items-center gap-2 md:w-64 md:shrink-0 md:flex-none">
           <div className="flex items-center gap-1 text-primary">
             <Link to="/" className="flex items-center gap-1">
               <svg
@@ -49,7 +49,7 @@ export default function Navbar() {
               >
                 <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" />
               </svg>
-              <span className="text-xl font-bold">MentorMatch</span>
+              <span className="truncate text-xl font-bold">MentorMatch</span>
             </Link>
           </div>
         </div>
@@ -57,7 +57,7 @@ export default function Navbar() {
         {/* Global Search is removed */}
 
         {/* Actions & Profile */}
-        <div className="flex items-center justify-end gap-3 md:gap-5 w-64 shrink-0">
+        <div className="ml-auto flex items-center justify-end gap-2 md:gap-5 md:w-64 md:shrink-0">
           <button
             type="button"
             onClick={toggleTheme}

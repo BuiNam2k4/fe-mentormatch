@@ -351,7 +351,7 @@ export default function MenteeBookingsPage() {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-      <div className="p-6 border-b border-slate-100">
+      <div className="p-4 sm:p-6 border-b border-slate-100">
         <h2 className="text-xl font-bold text-slate-900">Lịch học của tôi</h2>
         <p className="text-sm text-slate-500 mt-1">
           Quản lý các ca học bạn đã đặt với Mentor
@@ -360,7 +360,7 @@ export default function MenteeBookingsPage() {
 
       {message && (
         <div
-          className={`mx-6 mt-4 p-4 rounded-xl flex items-center justify-between text-sm font-medium border ${
+          className={`mx-4 sm:mx-6 mt-4 p-4 rounded-xl flex items-center justify-between text-sm font-medium border ${
             message.type === "success"
               ? "bg-emerald-50 text-emerald-700 border-emerald-100"
               : "bg-red-50 text-red-700 border-red-100"
@@ -374,7 +374,7 @@ export default function MenteeBookingsPage() {
       )}
 
       {/* Status Filter */}
-      <div className="px-6 py-3 border-b border-slate-100 bg-slate-50/50">
+      <div className="px-4 sm:px-6 py-3 border-b border-slate-100 bg-slate-50/50">
         <div className="flex flex-nowrap overflow-x-auto gap-2 scrollbar-hide">
           {[
             { id: "ALL", label: "Tất cả" },
@@ -402,7 +402,7 @@ export default function MenteeBookingsPage() {
         </div>
       </div>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {bookings.length === 0 ? (
           <div className="text-center py-12">
             <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -427,7 +427,7 @@ export default function MenteeBookingsPage() {
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="bg-white border text-sm border-slate-200 rounded-xl p-5 hover:border-[#372660]/30 transition-colors"
+                className="bg-white border text-sm border-slate-200 rounded-xl p-4 sm:p-5 hover:border-[#372660]/30 transition-colors"
               >
                 <div className="flex flex-col md:flex-row gap-5">
                   {/* Left: Mentor Info */}
@@ -527,7 +527,7 @@ export default function MenteeBookingsPage() {
 
                       {/* PENDING → show Pay Now button */}
                       {booking.status === "PENDING" && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <div className="flex items-center gap-1.5 px-3 py-2 bg-slate-50 text-slate-400 rounded-lg text-sm font-medium">
                             <Clock3 className="w-4 h-4" />
                             Đang chờ
@@ -571,7 +571,7 @@ export default function MenteeBookingsPage() {
 
                       {/* DISPUTED → show pending info */}
                       {booking.status === "DISPUTED" && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <div className="px-4 py-2 bg-orange-50 text-orange-600 rounded-lg text-sm font-medium">
                             <AlertTriangle className="w-4 h-4 inline-block mr-1.5" />
                             Đang xử lý khiếu nại
@@ -587,7 +587,7 @@ export default function MenteeBookingsPage() {
 
                       {/* REFUNDED → show refund confirmation */}
                       {booking.status === "REFUNDED" && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <div className="px-4 py-2 bg-emerald-50 text-emerald-600 rounded-lg text-sm font-medium">
                             <CheckCircle className="w-4 h-4 inline-block mr-1.5" />
                             Đã hoàn tiền
@@ -603,7 +603,7 @@ export default function MenteeBookingsPage() {
 
                       {/* REJECTED → show rejected info */}
                       {booking.status === "REJECTED" && (
-                        <div className="flex items-center gap-2">
+                        <div className="flex flex-wrap items-center gap-2">
                           <div className="px-4 py-2 bg-rose-50 text-rose-600 rounded-lg text-sm font-medium">
                             <AlertTriangle className="w-4 h-4 inline-block mr-1.5" />
                             Từ chối hoàn tiền
@@ -634,12 +634,12 @@ export default function MenteeBookingsPage() {
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
-          <div className="flex gap-1">
+          <div className="flex gap-1 max-w-[60vw] overflow-x-auto scrollbar-hide">
             {[...Array(totalPages)].map((_, i) => (
               <button
                 key={i}
                 onClick={() => setPage(i)}
-                className={`w-8 h-8 flex items-center justify-center rounded-lg text-sm font-semibold transition-colors ${
+                className={`w-8 h-8 shrink-0 flex items-center justify-center rounded-lg text-sm font-semibold transition-colors ${
                   page === i
                     ? "bg-[#372660] text-white"
                     : "text-slate-600 hover:bg-slate-50"

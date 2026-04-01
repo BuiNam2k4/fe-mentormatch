@@ -10,6 +10,9 @@ import {
   GraduationCap,
   Target,
   Sparkles,
+  MapPin,
+  Star,
+  X,
 } from "lucide-react";
 import { useAuth } from "../contexts/AuthContext";
 import profileService from "../services/profileService";
@@ -25,6 +28,7 @@ export default function MyProfilePage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [postsError, setPostsError] = useState("");
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   const roleNames = useMemo(() => profileData?.roles || [], [profileData]);
   const isMentor = roleNames.includes("ROLE_MENTOR");
@@ -111,46 +115,74 @@ export default function MyProfilePage() {
     `https://ui-avatars.com/api/?name=${encodeURIComponent(profileData.fullName || "User")}&background=ece8f6&color=372660&size=256`;
   const mentorProfile = profileData.mentorProfile;
   const menteeProfile = profileData.menteeProfile;
+  const profileTitle = isMentor
+    ? "Mentor tại MentorMatch"
+    : isMentee
+      ? "Mentee tại MentorMatch"
+      : "Thành viên tại MentorMatch";
+  const rating = mentorProfile?.rating ? mentorProfile.rating.toFixed(1) : "0.0";
+  const reviewCount = mentorProfile?.reviewCount || 0;
 
   return (
     <div className="space-y-6">
       <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
-        <div className="h-28 bg-gradient-to-r from-[#372660] to-[#5c4a8f]" />
-        <div className="px-6 pb-6 -mt-12">
-          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4">
-            <div className="flex items-end gap-4">
-              <img
-                src={avatar}
-                alt={profileData.fullName}
-                className="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-lg"
-              />
-              <div className="pb-1">
-                <h1 className="text-2xl font-bold text-slate-900">
+        <div className="h-32 sm:h-40 bg-[#e8e0d5]">
+          <img
+            src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop"
+            alt="Profile cover"
+            className="w-full h-full object-cover opacity-60 mix-blend-multiply"
+          />
+        </div>
+
+        <div className="px-4 sm:px-6 pb-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between gap-4 pt-4">
+            <div className="flex items-end gap-4 min-w-0">
+              <button
+                type="button"
+                onClick={() => setLightboxImage(avatar)}
+                className="shrink-0 rounded-2xl border border-slate-200 bg-white p-1 shadow-sm"
+                title="Xem ảnh đại diện"
+              >
+                <img
+                  src={avatar}
+                  alt={profileData.fullName}
+                  className="w-24 h-24 rounded-xl object-cover cursor-zoom-in hover:opacity-95 transition-opacity"
+                />
+              </button>
+
+              <div className="pb-1 min-w-0">
+                <h1 className="truncate text-2xl font-bold text-slate-900">
                   {profileData.fullName}
                 </h1>
-                <p className="text-sm text-slate-500">
-                  @{profileData.userName}
-                </p>
-                <div className="flex items-center gap-2 mt-2 flex-wrap">
-                  {roleNames.map((role) => (
-                    <span
-                      key={role}
-                      className="px-2.5 py-1 text-xs font-semibold rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100"
-                    >
-                      {role.replace("ROLE_", "")}
-                    </span>
-                  ))}
-                </div>
+                <p className="mt-1 text-base font-medium text-slate-600">{profileTitle}</p>
+                <p className="mt-1 text-sm text-slate-500 truncate">@{profileData.userName}</p>
               </div>
             </div>
 
             <button
               onClick={() => navigate("/settings")}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-sm"
             >
               <Settings className="w-4 h-4" />
               Edit profile
             </button>
+          </div>
+
+          <div className="mt-5 flex flex-wrap items-center gap-4 md:gap-6 text-sm font-medium text-slate-500">
+            <div className="flex items-center gap-1.5">
+              <MapPin className="w-4 h-4 text-slate-400" />
+              Việt Nam
+            </div>
+            {mentorProfile?.yearsOfExperience != null && (
+              <div className="flex items-center gap-1.5">
+                <Briefcase className="w-4 h-4 text-slate-400" />
+                {mentorProfile.yearsOfExperience} năm kinh nghiệm
+              </div>
+            )}
+            <div className="flex items-center gap-1.5 text-slate-700">
+              <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
+              {rating} <span className="text-slate-500 font-normal">({reviewCount} đánh giá)</span>
+            </div>
           </div>
 
           <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -165,6 +197,31 @@ export default function MyProfilePage() {
           </div>
         </div>
       </div>
+
+      {lightboxImage && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 backdrop-blur-sm"
+          onClick={() => setLightboxImage(null)}
+        >
+          <button
+            type="button"
+            className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 bg-black/50 rounded-full transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setLightboxImage(null);
+            }}
+            aria-label="Đóng xem ảnh"
+          >
+            <X className="w-7 h-7" />
+          </button>
+          <img
+            src={lightboxImage}
+            alt="Ảnh đại diện"
+            className="max-w-full max-h-full object-contain cursor-zoom-out shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </div>
+      )}
 
       {isMentor && (
         <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 space-y-4">
