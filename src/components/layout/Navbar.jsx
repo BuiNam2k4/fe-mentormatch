@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import NotificationDropdown from "./NotificationDropdown";
 import { Button } from "../ui/button";
@@ -39,7 +39,7 @@ export default function Navbar() {
         {/* Logo */}
         <div className="flex items-center gap-2 w-64 shrink-0">
           <div className="flex items-center gap-1 text-primary">
-            <a href="/">
+            <Link to="/" className="flex items-center gap-1">
               <svg
                 width="28"
                 height="28"
@@ -50,7 +50,7 @@ export default function Navbar() {
                 <path d="M12 3L1 9L12 15L21 10.09V17H23V9M5 13.18V17.18L12 21L19 17.18V13.18L12 17L5 13.18Z" />
               </svg>
               <span className="text-xl font-bold">MentorMatch</span>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export default function Navbar() {
                 size="icon"
                 onClick={() => {
                   logout();
-                  window.location.href = "/";
+                  navigate("/");
                 }}
                 className="text-slate-400 hover:text-red-600 rounded-full"
                 title="Đăng xuất"
@@ -124,7 +124,7 @@ export default function Navbar() {
           ) : (
             <Button
               className="bg-[#372660] hover:bg-[#2b1d4c] text-white px-5 rounded-full text-sm font-medium transition-colors"
-              onClick={() => (window.location.href = "/login")}
+              onClick={() => navigate("/login")}
             >
               Đăng nhập
             </Button>
