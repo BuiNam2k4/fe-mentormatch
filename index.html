@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://cdn-icons-png.flaticon.com/512/3456/3456837.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MentorMatch</title>
+  </head>
+  <body>
+    <script>
+      // Prevent white flash: apply dark class before first paint
+      if (localStorage.getItem('theme') === 'dark') {
+        document.documentElement.classList.add('dark');
+      }
+    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
