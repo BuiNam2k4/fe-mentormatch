@@ -120,7 +120,9 @@ export default function MyProfilePage() {
     : isMentee
       ? "Mentee tại MentorMatch"
       : "Thành viên tại MentorMatch";
-  const rating = mentorProfile?.rating ? mentorProfile.rating.toFixed(1) : "0.0";
+  const rating = mentorProfile?.rating
+    ? mentorProfile.rating.toFixed(1)
+    : "0.0";
   const reviewCount = mentorProfile?.reviewCount || 0;
 
   return (
@@ -154,8 +156,12 @@ export default function MyProfilePage() {
                 <h1 className="truncate text-2xl font-bold text-slate-900">
                   {profileData.fullName}
                 </h1>
-                <p className="mt-1 text-base font-medium text-slate-600">{profileTitle}</p>
-                <p className="mt-1 text-sm text-slate-500 truncate">@{profileData.userName}</p>
+                <p className="mt-1 text-base font-medium text-slate-600">
+                  {profileTitle}
+                </p>
+                <p className="mt-1 text-sm text-slate-500 truncate">
+                  @{profileData.userName}
+                </p>
               </div>
             </div>
 
@@ -181,7 +187,10 @@ export default function MyProfilePage() {
             )}
             <div className="flex items-center gap-1.5 text-slate-700">
               <Star className="w-4 h-4 text-amber-500 fill-amber-500" />
-              {rating} <span className="text-slate-500 font-normal">({reviewCount} đánh giá)</span>
+              {rating}{" "}
+              <span className="text-slate-500 font-normal">
+                ({reviewCount} đánh giá)
+              </span>
             </div>
           </div>
 

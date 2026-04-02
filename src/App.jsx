@@ -22,6 +22,7 @@ import AdminSkillPage from "./pages/admin/AdminSkillPage";
 import MentorWalletPage from "./pages/MentorWalletPage";
 import AdminWithdrawalPage from "./pages/admin/AdminWithdrawalPage";
 import AdminDisputesPage from "./pages/admin/AdminDisputesPage";
+import AdminUsersPage from "./pages/admin/AdminUsersPage";
 import MenteeProfilePage from "./pages/MenteeProfilePage";
 import MyProfilePage from "./pages/MyProfilePage";
 import PaymentResultPage from "./pages/PaymentResultPage";
@@ -196,6 +197,7 @@ export default function App() {
               path="mentor-requests"
               element={<AdminMentorRequestsPage />}
             />
+            <Route path="users" element={<AdminUsersPage />} />
             <Route path="skills" element={<AdminSkillPage />} />
             <Route path="withdrawals" element={<AdminWithdrawalPage />} />
             <Route path="disputes" element={<AdminDisputesPage />} />

@@ -8,18 +8,27 @@ import {
   Home,
 } from "lucide-react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function AdminSidebar({ className = "", onNavigate }) {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   const handleNavigate = (path) => {
     navigate(path);
     if (onNavigate) onNavigate();
   };
 
+  const handleLogout = async () => {
+    await logout();
+    navigate("/login", { replace: true });
+    if (onNavigate) onNavigate();
+  };
+
   const menuItems = [
     { icon: LayoutDashboard, label: "Tổng quan", path: "/admin" },
+    { icon: Users, label: "Quản lý người dùng", path: "/admin/users" },
     { icon: Users, label: "Duyệt Mentor", path: "/admin/mentor-requests" },
     { icon: Tag, label: "Quản lý kỹ năng", path: "/admin/skills" },
     { icon: AlertTriangle, label: "Khiếu nại", path: "/admin/disputes" },
@@ -98,18 +107,19 @@ export default function AdminSidebar({ className = "", onNavigate }) {
         <div className="bg-slate-50 rounded-xl p-3 flex items-center justify-between border border-slate-100">
           <div className="flex items-center gap-3">
             <div className="w-8 h-8 bg-orange-200 rounded-full flex items-center justify-center text-orange-600 font-bold text-sm shrink-0">
-              A
+              {(user?.name || user?.userName || "A").charAt(0).toUpperCase()}
             </div>
             <div className="flex flex-col overflow-hidden">
               <span className="text-xs font-bold text-slate-800 truncate">
-                Quản trị viên
+                {user?.name || "Quản trị viên"}
               </span>
               <span className="text-[10px] text-slate-500 truncate">
-                admin@mentormatch.vn
+                {user?.email || `${user?.userName || "admin"}@mentormatch.vn`}
               </span>
             </div>
           </div>
           <button
+            onClick={handleLogout}
             className="text-slate-400 hover:text-red-500 transition-colors p-1"
             title="Đăng xuất"
           >

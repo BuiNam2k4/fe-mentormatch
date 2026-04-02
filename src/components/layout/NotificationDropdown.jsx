@@ -106,6 +106,11 @@ export default function NotificationDropdown() {
       notification.type === "BOOKING_COMPLETED"
     ) {
       navigate("/schedule");
+    } else if (
+      notification.type === "POST_LIKED" ||
+      notification.type === "POST_COMMENTED"
+    ) {
+      navigate("/feed");
     } else if (notification.type === "PAYMENT_SUCCESS") {
       if (notification.title === "Thanh toán thành công") {
         navigate("/my-bookings");
